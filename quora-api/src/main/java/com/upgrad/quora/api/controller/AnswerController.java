@@ -16,13 +16,14 @@ import com.upgrad.quora.api.model.AnswerRequest;
 @RestController
 //Default mapping of the answer controller
 @RequestMapping("/")
-// This is a endpoint or controller method for creating an answer for a given question
+
 public class AnswerController {
 
     @Autowired
     AnswerService answerService;
 
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    // This is a endpoint or controller method for creating an answer for a given question
     public ResponseEntity<AnswerResponse> createAnswer(@RequestHeader("authorization") final String accessToken,
                                                        @PathVariable("questionId") final String questionId,
                                                        AnswerRequest answerRequest) throws AuthorizationFailedException, InvalidQuestionException {
