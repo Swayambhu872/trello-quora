@@ -56,6 +56,8 @@ public class AnswerService {
         return answerDao.createAnswer(answerEntity);
     }
     @Transactional(propagation = Propagation.REQUIRED)
+     // This service method is used to edit answer by calling another method from AnswerDao class
+    // This method accepts answerID, accessToken and new edited answer in string format as parameter
     public AnswerEntity editAnswerContent(final String accessToken, final String answerId, final String newAnswer)
             throws AnswerNotFoundException, AuthorizationFailedException {
 
