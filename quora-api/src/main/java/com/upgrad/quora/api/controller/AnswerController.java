@@ -24,6 +24,7 @@ public class AnswerController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     // This is a endpoint or controller method for creating an answer for a given question
+    // It takes authorization or access token from RequestHeader, QuestionId from PathVariable and an AnswerRequest as a parameter and throws AuthorizationFailed and InvalidQuestion exception.
     public ResponseEntity<AnswerResponse> createAnswer(@RequestHeader("authorization") final String accessToken,
                                                        @PathVariable("questionId") final String questionId,
                                                        AnswerRequest answerRequest) throws AuthorizationFailedException, InvalidQuestionException {
