@@ -5,7 +5,8 @@ import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.dao.UserAuthDao;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
-import com.upgrad.quora.service.entity.UserAuthEntity;
+import com.upgrad.quora.service.entity.UserAuthTokenEntity;
+import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
@@ -34,7 +35,7 @@ public class AnswerService {
    // This method checks for valid accessToken and validates the question and calls another method from AnswerDao to create answer
     public AnswerEntity createAnswer(AnswerEntity answerEntity, final String accessToken, final String questionId)
             throws AuthorizationFailedException, InvalidQuestionException {
-        UserAuthEntity userAuthEntity = userAuthDao.getUserAuthByToken(accessToken);
+        UserAuthTokenEntity userAuthEntity = userAuthDao.getUserAuthToken(accessToken);
         //check weather user is signed in or not.
         if(userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
@@ -56,12 +57,10 @@ public class AnswerService {
         return answerDao.createAnswer(answerEntity);
     }
     @Transactional(propagation = Propagation.REQUIRED)
-     // This service method is used to edit answer by calling another method from AnswerDao class
-    // This method accepts answerID, accessToken and new edited answer in string format as parameter
     public AnswerEntity editAnswerContent(final String accessToken, final String answerId, final String newAnswer)
             throws AnswerNotFoundException, AuthorizationFailedException {
 
-        UserAuthEntity userAuthEntity = userAuthDao.getUserAuthByToken(accessToken);
+        UserAuthTokenEntity userAuthEntity = userAuthDao.getUserAuthToken(accessToken);
         //check whether user is signed in or not.If not then it will throw an exception
         if (userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
