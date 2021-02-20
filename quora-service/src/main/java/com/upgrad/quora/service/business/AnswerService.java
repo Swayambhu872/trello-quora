@@ -5,7 +5,7 @@ import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.dao.UserAuthDao;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
-import com.upgrad.quora.service.entity.UserAuthEntity;
+import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
+
 //@Service annotation is used to mark a class as a service provider
 @Service
 // Service class for all the answer related services
@@ -30,10 +31,10 @@ public class AnswerService {
     // @Transactional annotation is the metadata that specifies the semantics of the transactions on a method
     // It is declarative way to rollback a transaction
     @Transactional(propagation = Propagation.REQUIRED)
-   // This method checks for valid accessToken and validates the question and calls another method from AnswerDao to create answer
+    // This method checks for valid accessToken and validates the question and calls another method AnswerDao to create answer
     public AnswerEntity createAnswer(AnswerEntity answerEntity, final String accessToken, final String questionId)
             throws AuthorizationFailedException, InvalidQuestionException {
-        UserAuthEntity userAuthEntity = userAuthDao.getUserAuthByToken(accessToken);
+        UserAuthTokenEntity userAuthEntity = userAuthDao.getUserAuthByToken(accessToken);
         //check weather user is signed in or not.
         if(userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
